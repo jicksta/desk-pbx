@@ -7,8 +7,6 @@ set :repository, "git://github.com/jicksta/desk-pbx.git"
 # Project-related variables
 set :project_deploy_to_root, "/usr/local/desk_pbx"
 
-# Rails-related variables
-set :rails_deploy_to, project_deploy_to_root + "/pbx-gui"
 set :ahn_deploy_to,   project_deploy_to_root + "/pbx"
 
 # More Adhearsion-related variables
@@ -76,7 +74,7 @@ namespace :ahn do
   end
   
   task :stop do
-    run '/etc/init.d/ahn_queue_fetcher stop || true'
+    run "#{ahn_install_dir}/bin/ahnctl stop #{ahn_deploy_to}/current"
   end
   
   task :restart do
@@ -101,33 +99,5 @@ namespace :asterisk do
   task :restart do
     stop
     start
-  end
-end
-
-namespace :debian do
-  
-  task :update_packages do
-    run "apt-get update"
-  end
-  
-  namespace :monit do
-    task :install do
-      update_packages
-      run "apt-get install -y monit"
-    end
-  end
-  
-  namespace :mysql do
-    
-    task :install do
-      update_packages
-      run "apt-get install -y mysql-server-5.0"
-      run "apt-get install -y mysql-client-5.0"
-    end
-    
-    task :status do
-      run "/etc/init.d/mysql status"
-    end
-    
   end
 end
