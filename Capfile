@@ -35,7 +35,6 @@ depend :remote, :gem, "sqlite3-ruby", ">= 1.2.1"
 depend :remote, :gem, "daemons", ">= 1.0.10"
 
 before 'deploy', 'ahn:update'
-after 'deploy', :update_path_to_rails
 after 'deploy:setup', 'ahn:init'
 after 'deploy:setup', :chmod_adhearsion_folder
 
@@ -45,11 +44,6 @@ end
 
 before 'deploy', 'ahn:stop'
 after  'deploy', 'ahn:start'
-
-# after 'deploy', :update_path_to_rails
-task :update_path_to_rails do
-  run "echo #{rails_deploy_to}/current > #{ahn_deploy_to}/current/.path_to_gui"
-end
 
 namespace :deploy do
   
