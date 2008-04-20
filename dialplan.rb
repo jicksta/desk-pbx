@@ -5,6 +5,9 @@ Roomie = 1_415_412_5674
 MyDesk = 1_415_524_4444
 
 desk {
+  
+  variable 'DYNAMIC_FEATURES' => 'atxfer'
+  
   extension_length = extension.to_s.length
   peer_extension = case extension_length
     when 7  : "1415#{extension}"
@@ -16,6 +19,9 @@ desk {
 }
 
 from_trunk {
+  
+  variable 'DYNAMIC_FEATURES' => 'atxfer'
+  
   case extension
     when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
       dial "SIP/jay-desk-650&SIP/jay-desk-601&SIP/jay-desk-601-2",
