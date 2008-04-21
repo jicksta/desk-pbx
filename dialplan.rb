@@ -12,10 +12,16 @@ desk {
   peer_extension = case extension_length
     when 7  : "1415#{extension}"
     when 10 : "1#{extension}"
-    else extension
+    when 11 : extension
+    else
+      +invalid
   end
   dial Voipms % peer_extension, :caller_id => MyDesk
   dial Nufone % peer_extension, :caller_id => MyDesk if last_dial_unsuccessful?
+}
+
+invalid {
+  play 'invalid'
 }
 
 from_trunk {
