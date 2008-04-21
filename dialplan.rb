@@ -16,8 +16,8 @@ desk {
     else
       +invalid
   end
-  dial Voipms % peer_extension, :caller_id => MyDesk
-  dial Nufone % peer_extension, :caller_id => MyDesk if last_dial_unsuccessful?
+  dial Voipms % peer_extension, :caller_id => MyDesk, :options => "T"
+  dial Nufone % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
 }
 
 invalid {
@@ -31,7 +31,7 @@ from_trunk {
   case extension
     when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
       dial "SIP/jay-desk-650&SIP/jay-desk-601&SIP/jay-desk-601-2",
-           :for => 15.seconds, :caller_id => callerid
+           :for => 15.seconds, :caller_id => callerid, :options => "t"
       
       alternatives = [Voipms % Mobile, Nufone % Mobile]
       
@@ -40,7 +40,7 @@ from_trunk {
       
       until last_dial_successful? || alternatives.empty?
         ahn_log 'Trying cell phone.'
-        dial alternatives.shift, :caller_id => callerid, :for => 15.seconds
+        dial alternatives.shift, :caller_id => callerid, :for => 15.seconds, :options => "t"
       end
   end
 }
