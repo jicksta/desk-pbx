@@ -7,7 +7,7 @@ MyDesk = 1_415_524_4444
 desk {
   
   variable 'DYNAMIC_FEATURES' => 'atxfer'
-  variable 'TRANSFER_CONTEXT' => 'wtf'
+  variable 'TRANSFER_CONTEXT' => 'direct_dial'
   
   extension_length = extension.to_s.length
   peer_extension = case extension_length
@@ -32,7 +32,7 @@ direct_dial {
 from_trunk {
   
   variable 'DYNAMIC_FEATURES' => 'atxfer'
-  variable 'TRANSFER_CONTEXT' => 'wtf'
+  variable 'TRANSFER_CONTEXT' => 'direct_dial'
   
   case extension
     when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
