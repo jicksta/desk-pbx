@@ -6,8 +6,7 @@ MyDesk = 1_415_524_4444
 
 desk {
   
-  variable 'DYNAMIC_FEATURES' => 'atxfer'
-  variable 'TRANSFER_CONTEXT' => 'direct_dial'
+  enable_feature :attended_transfer, :context => 'direct_dial'
   
   extension_length = extension.to_s.length
   peer_extension = case extension_length
@@ -26,13 +25,12 @@ invalid {
 }
 
 direct_dial {
-  dial Voipms % extension, :caller_id => MyDesk
+  dial Voipms % extension, :caller_id => MyDesk, :options => "T"
 }
 
 from_trunk {
   
-  variable 'DYNAMIC_FEATURES' => 'atxfer'
-  variable 'TRANSFER_CONTEXT' => 'direct_dial'
+  enable_feature :attended_transfer, :context => 'direct_dial'
   
   case extension
     when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
@@ -41,7 +39,7 @@ from_trunk {
       
       alternatives = [Voipms % Mobile, Nufone % Mobile]
       
-      # Try roommate if it's someone at the gate trying to get in.
+      # Try roommate as a middle-step if it's someone at the gate trying to get in.
       alternatives.insert(1, Voipms % Roomie) if calleridname == 'EUREKA GARDENS'
       
       until last_dial_successful? || alternatives.empty?
