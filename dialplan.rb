@@ -1,5 +1,7 @@
 Voipms = 'SIP/%s@voipms'
 Nufone = 'SIP/%s@nufone'
+Vitelity = 'SIP/%s@vitelity'
+
 Mobile = 1_409_767_2813
 Roomie = 1_415_412_5674
 MyDesk = 1_415_524_4444
@@ -16,8 +18,9 @@ desk {
     else
       +invalid
   end
-  dial Voipms % peer_extension, :caller_id => MyDesk, :options => "T"
-  dial Nufone % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
+  dial Vitelity % peer_extension, :caller_id => MyDesk, :options => "T"
+  dial Voipms   % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
+  dial Nufone   % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
 }
 
 invalid {
@@ -25,7 +28,7 @@ invalid {
 }
 
 direct_dial {
-  dial Voipms % extension, :caller_id => MyDesk, :options => "T"
+  dial Vitelity % extension, :caller_id => MyDesk, :options => "T"
 }
 
 from_trunk {
