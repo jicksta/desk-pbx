@@ -7,9 +7,6 @@ Roomie = 1_415_412_5674
 MyDesk = 1_415_524_4444
 
 desk {
-  
-  enable_feature :attended_transfer, :context => 'direct_dial'
-  
   extension_length = extension.to_s.length
   peer_extension = case extension_length
     when 7  : "1415#{extension}"
@@ -18,9 +15,9 @@ desk {
     else
       +invalid
   end
-  dial Vitelity % peer_extension, :caller_id => MyDesk, :options => "T"
-  dial Voipms   % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
-  dial Nufone   % peer_extension, :caller_id => MyDesk, :options => "T" if last_dial_unsuccessful?
+  dial Vitelity % peer_extension, :caller_id => MyDesk
+  dial Voipms   % peer_extension, :caller_id => MyDesk if last_dial_unsuccessful?
+  dial Nufone   % peer_extension, :caller_id => MyDesk if last_dial_unsuccessful?
 }
 
 invalid {
@@ -28,17 +25,14 @@ invalid {
 }
 
 direct_dial {
-  dial Vitelity % extension, :caller_id => MyDesk, :options => "T"
+  dial Vitelity % extension, :caller_id => MyDesk
 }
 
 from_trunk {
-  
-  enable_feature :attended_transfer, :context => 'direct_dial'
-  
   case extension
     when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
       dial "SIP/jay-desk-650&SIP/jay-desk-601&SIP/jay-desk-601-2",
-           :for => 15.seconds, :caller_id => callerid, :options => "t"
+           :for => 15.seconds, :caller_id => callerid
       
       alternatives = [Voipms % Mobile, Nufone % Mobile]
       
@@ -47,7 +41,7 @@ from_trunk {
       
       until last_dial_successful? || alternatives.empty?
         ahn_log 'Trying cell phone.'
-        dial alternatives.shift, :caller_id => callerid, :for => 15.seconds, :options => "t"
+        dial alternatives.shift, :caller_id => callerid, :for => 15.seconds
       end
   end
 }
