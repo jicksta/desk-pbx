@@ -30,7 +30,8 @@ direct_dial {
 
 from_trunk {
   case extension
-    when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843
+    when 415_524_4444, 650_305_2000, 409_291_4773, 44_20_3051_4843, # <-- Voip.ms
+         415_963_3703 # <-- Vitelity
       dial "SIP/jay-desk-650&SIP/jay-desk-601&SIP/jay-desk-601-2",
            :for => 15.seconds, :caller_id => callerid
       
